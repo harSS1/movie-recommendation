@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
+import {Link} from 'react-router-dom';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3/discover/movie';
 
@@ -32,7 +33,6 @@ const MovieList = () => {
       if (data.response === "False") {
         setErrorMessage(data.Error || "Error fetching movies");
       }
-
       setMovies(data.results || []);
     } catch (error) {
       console.log(`Error fetching movies: ${error}`);
@@ -49,21 +49,29 @@ const MovieList = () => {
       const updatedLikedMovies = [...likedMovies, movie];
       setLikedMovies(updatedLikedMovies);
       localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMovies));
+      console.log('Liked Movies:', updatedLikedMovies.map(m => m.title));
     }
     setMovies((prevMovies) => prevMovies.filter((m) => m.id !== movie.id));
   }
 
   return (
-    <div className="grid place-items-center">
-      <h1> Movie Card </h1>
-      <h2> {errorMessage} </h2>
-      {movies.length > 0 ? (
-        movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} onSwipe={handleSwipe} />
-        ))
-      ) : (
-        <p> No more movies to show</p>
-      )}
+     //only show if error message is empty 
+    <div className='flex flex-col items-center w-full px-4'>
+      <h1 className='text-5xl text-white font-bold mb-2'> Movie Card </h1>
+      <h2 className='text-lg text-white mb-6'>Swipe right to save a movie!</h2>
+
+      {errorMessage && <h2 className="text-red-500">{errorMessage}</h2>}
+      
+      <div className="grid place-items-center">
+        {movies.length > 0 ? (
+          movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} onSwipe={handleSwipe} />
+          ))
+        ) : (
+          <h2 className='text-2xl text-white font-bold mb-6'>No more movies to show</h2>
+        )}
+      </div>
+      <Link to="/watchlist" className="bg-indigo-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full mt-8">Go to Watchlist</Link>
     </div>
   );
 };
