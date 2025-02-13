@@ -16,7 +16,7 @@ const MovieCard = ({ movie, onSwipe }) => {
   }
 
   return (
-    <motion.img src={poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-movie.png'} className="h-96 w-72 rounded-lg object-cover hover:cursor-grab active:cursor-grabbing" style={{ gridRow: 1, gridColumn: 1,x, opacity,rotate}} drag="x" dragConstraints={{ left: 0, right: 0 }} onDragEnd={handleDragEnd} />
+    <motion.img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} className="h-96 w-72 rounded-lg object-cover hover:cursor-grab active:cursor-grabbing" style={{ gridRow: 1, gridColumn: 1,x, opacity,rotate}} drag="x" dragConstraints={{ left: 0, right: 0 }} onDragEnd={handleDragEnd} />
   )
 }
 

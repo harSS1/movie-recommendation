@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import WatchlistCard from "./WatchlistCard";
 
 const Watchlist = () => {
 
@@ -14,27 +15,21 @@ const Watchlist = () => {
         setWatchlist(updatedWatchlist);
         localStorage.set("likedMovies", JSON.stringify(updatedWatchlist));
     };
-        
-        
+
+
     return (
         <div className="flex flex-col items-center">
-          <h1 className="text-3xl text-white font-bold mb-4">Watchlist</h1>
-          {watchlist.length > 0 ? (
-            <div className="grid gap-4">
-              {watchlist.map((movie) => (
-                <div key={movie.id} className="flex gap-4 items-center">
-                  <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt={movie.title} className="w-24 rounded" />
-                  <div>
-                    <h2 className="text-lg text-white">{movie.title}</h2>
-                    <button onClick={() => handleRemove(movie.id)} className="text-red-500 mt-2"> Remove</button>
-                  </div>
+            <h1 className="text-3xl text-white font-bold mb-4">Watchlist</h1>
+            {watchlist.length > 0 ? (
+                <div className="grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {watchlist.map((movie) => (
+                        <WatchlistCard key={movie.id} movie={movie} onRemove={handleRemove} />
+                    ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <h2 className='text-2xl text-white font-bold mb-6'>No movies in watclist</h2> // change styling
-          )}
+            ) : (
+                <h2 className='text-2xl text-white font-bold mb-6'>No movies in watclist</h2> // change styling
+            )}
         </div>
-      );
+    );
 }
 export default Watchlist;
