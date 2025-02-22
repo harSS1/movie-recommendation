@@ -23,40 +23,37 @@ const MovieList = () => {
     const storedLikedMovies = JSON.parse(localStorage.getItem('likedMovies')) || [];
     if (JSON.stringify(storedLikedMovies) !== JSON.stringify(likedMovies)) {
       setLikedMovies(storedLikedMovies);
+      fetchMovies();
     }
   }, []);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const randomPage = Math.floor(Math.random() * 10) + 1;
-        const endpoint = `${API_BASE_URL}?page=${randomPage}&sort_by=popularity.desc`;
-        const response = await fetch(endpoint, API_OPTIONS);
+  const fetchMovies = async () => {
+    try {
+      const randomPage = Math.floor(Math.random() * 10) + 1;
+      const endpoint = `${API_BASE_URL}?page=${randomPage}&sort_by=popularity.desc`;
+      const response = await fetch(endpoint, API_OPTIONS);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch movies");
-        }
-
-        const data = await response.json();
-
-        if (!data.results) {
-          setErrorMessage("Error fetching movies");
-          return;
-        }
-
-        const filteredMovies = data.results.filter((movie) => {
-          return !likedMovies.some((likedMovie) => likedMovie.id === movie.id)
-        });
-
-        setMovies(filteredMovies);
-      } catch (error) {
-        console.log(`Error fetching movies: ${error}`);
-        setErrorMessage("Error fetching movies. Please try again later.");
+      if (!response.ok) {
+        throw new Error("Failed to fetch movies");
       }
-    };
 
-    fetchMovies();
-  }, [likedMovies]);
+      const data = await response.json();
+
+      if (!data.results) {
+        setErrorMessage("Error fetching movies");
+        return;
+      }
+
+      const filteredMovies = data.results.filter((movie) => {
+        return !likedMovies.some((likedMovie) => likedMovie.id === movie.id)
+      });
+
+      setMovies(filteredMovies);
+    } catch (error) {
+      console.log(`Error fetching movies: ${error}`);
+      setErrorMessage("Error fetching movies. Please try again later.");
+    }
+  };
 
   const handleSwipe = (movie, direction) => {
     if (direction === 'right') {
@@ -69,7 +66,7 @@ const MovieList = () => {
   }
 
   return (
-     //only show if error message is empty 
+    //only show if error message is empty 
     <div className='flex flex-col items-center w-full px-4'>
       <h1 className='text-5xl text-white font-bold mb-2'> Movie Card </h1>
       <h2 className='text-lg text-white mb-6'>Swipe right to save a movie!</h2>
