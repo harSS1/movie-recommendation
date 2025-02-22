@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3/discover/movie';
 
@@ -19,30 +19,44 @@ const MovieList = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [likedMovies, setLikedMovies] = useState([]);
 
-  const fetchMovies = async () => {
-    try {
-      const endpoint = `${API_BASE_URL}?sort_by=popularity.desc`;
-      const response = await fetch(endpoint, API_OPTIONS);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch movies");
-      }
-
-      const data = await response.json();
-
-      if (data.response === "False") {
-        setErrorMessage(data.Error || "Error fetching movies");
-      }
-      setMovies(data.results || []);
-    } catch (error) {
-      console.log(`Error fetching movies: ${error}`);
-      setErrorMessage("Error fetching movies. Please try again later.");
+  useEffect(() => {
+    const storedLikedMovies = JSON.parse(localStorage.getItem('likedMovies')) || [];
+    if (JSON.stringify(storedLikedMovies) !== JSON.stringify(likedMovies)) {
+      setLikedMovies(storedLikedMovies);
     }
-  };
+  }, []);
 
   useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const randomPage = Math.floor(Math.random() * 10) + 1;
+        const endpoint = `${API_BASE_URL}?page=${randomPage}&sort_by=popularity.desc`;
+        const response = await fetch(endpoint, API_OPTIONS);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch movies");
+        }
+
+        const data = await response.json();
+
+        if (!data.results) {
+          setErrorMessage("Error fetching movies");
+          return;
+        }
+
+        const filteredMovies = data.results.filter((movie) => {
+          return !likedMovies.some((likedMovie) => likedMovie.id === movie.id)
+        });
+
+        setMovies(filteredMovies);
+      } catch (error) {
+        console.log(`Error fetching movies: ${error}`);
+        setErrorMessage("Error fetching movies. Please try again later.");
+      }
+    };
+
     fetchMovies();
-  }, []);
+  }, [likedMovies]);
 
   const handleSwipe = (movie, direction) => {
     if (direction === 'right') {
@@ -61,7 +75,7 @@ const MovieList = () => {
       <h2 className='text-lg text-white mb-6'>Swipe right to save a movie!</h2>
 
       {errorMessage && <h2 className="text-red-500">{errorMessage}</h2>}
-      
+
       <div className="grid place-items-center">
         {movies.length > 0 ? (
           movies.map((movie) => (
