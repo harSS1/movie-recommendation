@@ -21,16 +21,14 @@ const MovieList = () => {
 
   useEffect(() => {
     const storedLikedMovies = JSON.parse(localStorage.getItem('likedMovies')) || [];
-    if (JSON.stringify(storedLikedMovies) !== JSON.stringify(likedMovies)) {
       setLikedMovies(storedLikedMovies);
-      fetchMovies();
-    }
+      fetchMovies(storedLikedMovies);
   }, []);
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (likedMovies) => {
     try {
       const randomPage = Math.floor(Math.random() * 10) + 1;
-      const endpoint = `${API_BASE_URL}?page=${randomPage}&sort_by=popularity.desc`;
+      const endpoint = `${API_BASE_URL}?include_adult=false&include_video=false&page=${randomPage}&sort_by=popularity.desc,vote_average.desc&without_genres=99,10755&vote_count.gte=200`;
       const response = await fetch(endpoint, API_OPTIONS);
 
       if (!response.ok) {
@@ -45,7 +43,7 @@ const MovieList = () => {
       }
 
       const filteredMovies = data.results.filter((movie) => {
-        return !likedMovies.some((likedMovie) => likedMovie.id === movie.id)
+        return !likedMovies.some((likedMovie) => likedMovie.id === movie.id) && !movie.adult
       });
 
       setMovies(filteredMovies);

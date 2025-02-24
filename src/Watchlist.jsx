@@ -13,7 +13,7 @@ const Watchlist = () => {
     const handleRemove = (id) => {
         const updatedWatchlist = watchlist.filter(movie => movie.id !== id);
         setWatchlist(updatedWatchlist);
-        localStorage.set("likedMovies", JSON.stringify(updatedWatchlist));
+        localStorage.setItem("likedMovies", JSON.stringify(updatedWatchlist));
     };
 
 
