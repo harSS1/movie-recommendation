@@ -74,13 +74,13 @@ const MovieList = () => {
       <div className="grid place-items-center">
         {movies.length > 0 ? (
           movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} onSwipe={handleSwipe} />
+            <MovieCard key={movie.id} movie={movie} movieList={movies} onSwipe={handleSwipe} />
           ))
         ) : (
           <h2 className='text-2xl text-white font-bold mb-6'>No more movies to show</h2>
         )}
       </div>
-      <Link to="/watchlist" className="bg-indigo-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full mt-8">Go to Watchlist</Link>
+      <Link to="/watchlist" className="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 px-4 rounded-full mt-8">Go to Watchlist</Link>
     </div>
   );
 };

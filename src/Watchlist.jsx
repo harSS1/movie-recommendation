@@ -18,7 +18,7 @@ const Watchlist = () => {
 
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center p-6">
             <h1 className="text-3xl text-white font-bold mb-4">Watchlist</h1>
             {watchlist.length > 0 ? (
                 <div className="grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

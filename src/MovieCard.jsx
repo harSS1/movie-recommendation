@@ -6,7 +6,7 @@ const MovieCard = ({ movie, onSwipe }) => {
   const opacity = useTransform(x, [-150, 0, 150] , [0, 1, 0]);
   const rotate = useTransform(x, [-150, 150], [-18, 18]);
   
-  
+
   const handleDragEnd = () => {
     if (x.get() > 100) {
       onSwipe(movie,"right")
