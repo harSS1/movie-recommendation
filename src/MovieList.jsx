@@ -64,10 +64,10 @@ const MovieList = () => {
   }
 
   return (
-    //only show if error message is empty 
-    <div className='flex flex-col items-center w-full px-4'>
-      <h1 className='text-5xl text-white font-bold mb-2'> Movie Card </h1>
-      <h2 className='text-lg text-white mb-6'>Swipe right to save a movie!</h2>
+    //change scrollbar
+    <div className="flex flex-col items-center w-full px-4">
+      <h1 className="text-5xl text-white font-bold mb-2"> Movie Card </h1>
+      <h2 className="text-lg text-white mb-6">Swipe right to save a movie!</h2>
 
       {errorMessage && <h2 className="text-red-500">{errorMessage}</h2>}
 
@@ -77,7 +77,7 @@ const MovieList = () => {
             <MovieCard key={movie.id} movie={movie} movieList={movies} onSwipe={handleSwipe} />
           ))
         ) : (
-          <h2 className='text-2xl text-white font-bold mb-6'>No more movies to show</h2>
+          <h2 className="text-2xl text-white font-bold mb-6">No more movies to show</h2>
         )}
       </div>
       <Link to="/watchlist" className="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 px-4 rounded-full mt-8">Go to Watchlist</Link>
