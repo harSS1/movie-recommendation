@@ -21,8 +21,8 @@ const MovieList = () => {
 
   useEffect(() => {
     const storedLikedMovies = JSON.parse(localStorage.getItem('likedMovies')) || [];
-      setLikedMovies(storedLikedMovies);
-      fetchMovies(storedLikedMovies);
+    setLikedMovies(storedLikedMovies);
+    fetchMovies(storedLikedMovies);
   }, []);
 
   const fetchMovies = async (likedMovies) => {
@@ -63,13 +63,13 @@ const MovieList = () => {
     setMovies((prevMovies) => prevMovies.filter((m) => m.id !== movie.id));
   }
 
+  if (errorMessage) return <h2 className="text-red-500 text-center font-bold">{errorMessage}</h2>;
+  if (movies.length == 0) return <h2 className="text-white text-center">Loading...</h2>;
+
   return (
-    //change scrollbar
-    <div className="flex flex-col items-center w-full px-4">
+    <div className="flex flex-col items-center w-full max-w-full p-2">
       <h1 className="text-5xl text-white font-bold mb-2"> Movie Card </h1>
       <h2 className="text-lg text-white mb-6">Swipe right to save a movie!</h2>
-
-      {errorMessage && <h2 className="text-red-500">{errorMessage}</h2>}
 
       <div className="grid place-items-center">
         {movies.length > 0 ? (

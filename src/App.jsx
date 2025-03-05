@@ -4,6 +4,7 @@ import MovieList from "./MovieList";
 import Watchlist from "./Watchlist";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import MovieDetails from "./MovieDetails";
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<MovieList />} />
             <Route path="/watchlist" element={<Watchlist />} />
+            <Route path="/movie/:id" element={<MovieDetails />} />
           </Routes>
         </div>
         <Footer />

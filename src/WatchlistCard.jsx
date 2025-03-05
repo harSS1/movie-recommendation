@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 const WatchlistCard = ({ movie, onRemove }) => {
     const { poster_path, title, id, vote_average, original_language, release_date, overview } = movie;
@@ -26,6 +27,7 @@ const WatchlistCard = ({ movie, onRemove }) => {
                     <div>
                         <h3 className="font-bold text-lg">{title}</h3>
                         <p className="text-sm mt-2"> {overview && overview.length > 200 ? overview.slice(0, 200) + "..." : overview} </p>
+                        <Link to={`/movie/${id}`} className="text-blue-400 text-sm mt-1 underline"> Read More </Link>
                         <div className="mt-4 text-sm opacity-80">
                             <div className="flex items-center gap-1 text-base text-white font-bold">
                                 <p>Rating: {vote_average ? vote_average.toFixed(1) : 'N/A'}</p>
