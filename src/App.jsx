@@ -1,11 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import MovieList from "./MovieList";
-import Watchlist from "./Watchlist";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import MovieDetails from "./MovieDetails";
-
+import MovieList from "./components/MovieList";
+import Watchlist from "./components/Watchlist";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import MovieDetails from "./components/MovieDetails";
 
 const App = () => {
   return (
