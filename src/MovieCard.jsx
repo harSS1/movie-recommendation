@@ -8,9 +8,9 @@ const MovieCard = ({ movie, onSwipe }) => {
   
 
   const handleDragEnd = () => {
-    if (x.get() > 100) {
+    if (x.get() > 50) {
       onSwipe(movie,"right")
-    } else if (x.get() < -100) {
+    } else if (x.get() < -50) {
       onSwipe(movie, "left");
     }
   }

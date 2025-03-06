@@ -64,17 +64,16 @@ const MovieList = () => {
   }
 
   if (errorMessage) return <h2 className="text-red-500 text-center font-bold">{errorMessage}</h2>;
-  if (movies.length == 0) return <h2 className="text-white text-center">Loading...</h2>;
 
   return (
     <div className="flex flex-col items-center w-full max-w-full p-2">
-      <h1 className="text-5xl text-white font-bold mb-2"> Movie Card </h1>
-      <h2 className="text-lg text-white mb-6">Swipe right to save a movie!</h2>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl text-white font-bold mb-2 text-center whitespace-normal">Movie Recommendations </h1>
+      <h2 className="text-base sm:text-lg md:text-xl text-white mb-6 font-semibold text-center whitespace-normal">Love it? Swipe right! Not a fan? Swipe left!</h2>
 
       <div className="grid place-items-center">
         {movies.length > 0 ? (
           movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} movieList={movies} onSwipe={handleSwipe} />
+            <MovieCard key={movie.id} movie={movie} onSwipe={handleSwipe} />
           ))
         ) : (
           <h2 className="text-2xl text-white font-bold mb-6">No more movies to show</h2>
