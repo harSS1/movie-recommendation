@@ -16,6 +16,7 @@ const API_OPTIONS = {
 const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState([]);
+  const [cast, setCast] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -23,13 +24,10 @@ const MovieDetails = () => {
       try {
         const endpoint = `${API_BASE_URL}/${id}`;
         const response = await fetch(endpoint, API_OPTIONS);
-
         if (!response.ok) {
           throw new Error("Failed to fetch movie details");
         }
-
         const data = await response.json();
-
         if (!data) {
           setErrorMessage("Error fetching movie details");
           return;
@@ -41,13 +39,34 @@ const MovieDetails = () => {
       }
     };
 
+    const fetchMovieCast = async () => {
+      try {
+        const endpoint = `${API_BASE_URL}/${id}/credits`;
+        const response = await fetch(endpoint, API_OPTIONS);
+        if (!response.ok) {
+          throw new Error("Failed to fetch movie cast details");
+        }
+        const data = await response.json();
+        if (!data) {
+          setErrorMessage("Error fetching movie cast details");
+          return;
+        }
+        setCast(data.cast.map((actor) => actor.name).slice(0, 3));
+      } catch (error) {
+        console.log(`Error fetching cast details: ${error}`);
+        setErrorMessage("Error fetching cast details. Please try again.");
+      }
+    };
+
     fetchMovieDetails();
+    fetchMovieCast();
   }, [id]);
 
   if (errorMessage)
     return (
       <h2 className="text-red-500 text-center font-bold">{errorMessage}</h2>
     );
+
   if (movie.length == 0)
     return <h2 className="text-white text-center">Loading...</h2>;
 
@@ -65,18 +84,26 @@ const MovieDetails = () => {
         <div className="max-w-lg text-center md:text-left">
           <p className="text-lg text-gray-300 mb-4 min-h-[80px]">
             {" "}
-            {movie.overview}{" "}
+            {movie.overview || "N/A"}{" "}
           </p>
           <div className="space-y-2 text-lg font-semibold">
             <div className="inline-flex items-center gap-1">
-              <p>Rating: {movie.vote_average.toFixed(1)} </p>
+              <p>
+                Rating:{" "}
+                {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
+              </p>
               <i className="bx bxs-star"></i>
             </div>
-            <p>Language: {movie.original_language.toUpperCase()}</p>
-            <p>Release Date: {movie.release_date}</p>
+            <p>Language: {movie.original_language?.toUpperCase() || "N/A"}</p>
+            <p>Release Date: {movie.release_date || "N/A"}</p>
             <p>
               {" "}
-              Genres: {movie.genres.map((genre) => genre.name).join(", ")}{" "}
+              Genres:{" "}
+              {movie.genres?.map((genre) => genre.name).join(", ") || "N/A"}
+            </p>
+            <p>
+              Cast: {cast.length > 0 ? cast.join(", ") : "N/A"}
+              {cast.length > 2 && "..."}
             </p>
           </div>
 

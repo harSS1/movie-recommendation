@@ -51,7 +51,7 @@ const WatchlistCard = ({ movie, onRemove }) => {
             <p className="text-sm mt-2">
               {" "}
               {overview && overview.length > 200
-                ? overview.slice(0, 200) + "..."
+                ? overview.slice(0, 150) + "..."
                 : overview}{" "}
             </p>
             <Link
